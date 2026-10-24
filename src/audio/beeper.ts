@@ -10,7 +10,7 @@ let ctx: AudioContext | null = null;
 export function unlockAudio(): void {
   try {
     ctx ??= new AudioContext();
-    if (ctx.state === 'suspended') void ctx.resume();
+    if (ctx.state !== 'running') void ctx.resume(); // iOS também usa 'interrupted' (ligação, troca de app)
   } catch {
     ctx = null; // sem áudio: o jogo segue mudo
   }
