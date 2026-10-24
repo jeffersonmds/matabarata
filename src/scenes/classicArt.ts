@@ -1,0 +1,50 @@
+// Arte e textos do MataBarata de 2013: [coluna, linha, cor, texto] em coordenadas de console 1-based.
+export type ArtColor = 'red' | 'white' | 'green' | 'blue';
+export type ArtLine = readonly [col: number, row: number, color: ArtColor, text: string];
+
+export const INTRO_ART: ArtLine[] = [
+  [10, 5, 'red', '▒▒         ▒▒'],
+  [10, 6, 'red', ' ▒▒       ▒▒'],
+  [10, 7, 'red', '  ▒▒     ▒▒'],
+  [10, 8, 'red', '   ▒▒   ▒▒'],
+  [10, 9, 'red', '  ¶¶¶¶¶¶¶¶¶'],
+  [10, 10, 'red', ' ¶¶¶¶¶¶¶¶¶¶¶'],
+  [10, 11, 'red', '¶¶¶¶¶¶¶¶¶¶¶¶¶'],
+  [10, 12, 'red', ' ¶¶¶¶¶¶¶¶¶¶¶'],
+  [10, 13, 'red', '  ¶¶¶¶¶¶¶¶¶'],
+  [10, 14, 'red', '  ¶¶¶¶¶¶¶¶¶¶'],
+  [9, 15, 'red', '¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶'],
+  [8, 16, 'red', '¶¶¶¶¶¶¶¶oo¶¶¶¶¶¶¶¶'],
+  [7, 17, 'red', '¶¶¶¶¶¶¶¶oooo¶¶¶¶¶¶¶¶'],
+  [7, 18, 'red', '¶¶¶¶¶¶¶oooooo¶¶¶¶¶¶¶'],
+  [7, 19, 'red', '¶¶¶¶¶¶¶oooooo¶¶¶¶¶¶¶'],
+  [6, 20, 'red', '¶¶¶¶¶¶¶ooooooc¶¶¶¶¶¶¶'],
+  [7, 21, 'red', '¶¶¶¶¶¶¶oooooo¶¶¶¶¶¶¶'],
+  [7, 22, 'red', '¶¶¶¶¶¶¶oooooo¶¶¶¶¶¶¶¶'],
+  [7, 23, 'red', ' ¶¶¶¶¶  oooo ¶¶¶¶¶¶'],
+  [8, 24, 'red', ' ¶¶¶¶   oo  ¶¶¶¶¶'],
+  [35, 5, 'white', '▒▒      ▒▒ ▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒'],
+  [35, 6, 'white', '▒▒▒▒  ▒▒▒▒ ▒▒   ▒▒    ▒▒    ▒▒   ▒▒'],
+  [35, 7, 'white', '▒▒  ▒▒  ▒▒ ▒▒▒▒▒▒▒    ▒▒    ▒▒▒▒▒▒▒'],
+  [35, 8, 'white', '▒▒      ▒▒ ▒▒   ▒▒    ▒▒    ▒▒   ▒▒'],
+  [30, 10, 'green', '▒▒▒  ▒▒▒▒ ▒▒▒  ▒▒▒▒ ▒▒▒▒▒ ▒▒▒▒'],
+  [30, 11, 'green', '▒  ▒ ▒  ▒ ▒  ▒ ▒  ▒   ▒   ▒  ▒'],
+  [30, 12, 'green', '▒▒▒  ▒▒▒▒ ▒▒▒  ▒▒▒▒   ▒   ▒▒▒▒    ▒▒▒ ▒▒▒ ▒▒   ▒▒'],
+  [30, 13, 'green', '▒  ▒ ▒  ▒ ▒ ▒▒ ▒  ▒   ▒   ▒  ▒    ▒   ▒ ▒ ▒ ▒ ▒ ▒'],
+  [30, 14, 'green', '▒▒▒  ▒  ▒ ▒  ▒ ▒  ▒   ▒   ▒  ▒  ▒ ▒▒▒ ▒▒▒ ▒  ▒  ▒'],
+];
+
+export const RULES: ArtLine[] = [
+  [19, 3, 'red', '--------------------------------------------'],
+  [39, 4, 'red', 'REGRAS'],
+  [19, 5, 'red', '--------------------------------------------'],
+  [19, 7, 'white', '- Use as teclas WASD para se movimentar pelo'],
+  [19, 8, 'white', 'campo (no celular, deslize o dedo)'],
+  [19, 10, 'white', '- Cuidado para nao encostar nas bordas, caso'],
+  [19, 11, 'white', 'isso ocorra, perderá o jogo'],
+  [19, 13, 'white', '- Mate todas as baratas e vencerá o jogo'],
+  [19, 15, 'white', '- A cada barata que voce matar a velocidade'],
+  [19, 16, 'white', 'do cursor irá aumentar'],
+  [19, 18, 'red', '--------------------------------------------'],
+  [19, 21, 'green', 'BOM JOGO!!!'],
+];
