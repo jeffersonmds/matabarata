@@ -5,10 +5,10 @@ import { createWorld, stepWorld, infestation, aliveRoaches, type World, type Wor
 import { starsFor } from '../logic/scoring';
 import { recordResult } from '../logic/progress';
 import type { Roach } from '../logic/roach';
-import type { Vec } from '../logic/geometry';
+import type { Rect, Vec } from '../logic/geometry';
 import { loadSave, writeSave } from '../save';
 import { ensureTextures } from '../art/textures';
-import { fitCamera, button, text } from './ui';
+import { fitCamera, button, text, coverImage } from './ui';
 
 // Área de design: faixa do HUD em cima + arena (coordenadas da arena + HUD_H no eixo y).
 export const HUD_H = 120;
@@ -46,10 +46,9 @@ export class LevelScene extends Phaser.Scene {
     this.target = null;
     this.pauseLayer = null;
 
-    this.add.tileSprite(0, HUD_H, ARENA_W, ARENA_H, 'floor').setOrigin(0);
-    for (const o of level.obstacles) {
-      this.add.rectangle(o.x, HUD_H + o.y, o.w, o.h, 0xb07a46).setOrigin(0).setStrokeStyle(6, 0x6b4423).setDepth(3);
-    }
+    if (this.textures.exists('cozinha-piso')) coverImage(this, 'cozinha-piso', { x: 0, y: HUD_H, w: ARENA_W, h: ARENA_H });
+    else this.add.tileSprite(0, HUD_H, ARENA_W, ARENA_H, 'floor').setOrigin(0);
+    for (const o of level.obstacles) this.addObstacle(o);
     for (const r of this.w.roaches) this.addRoach(r, false);
     this.chinelo = this.add.image(this.w.chinelo.x, HUD_H + this.w.chinelo.y, 'chinelo').setDepth(4);
     this.drawHud(level.name);
@@ -60,6 +59,16 @@ export class LevelScene extends Phaser.Scene {
       if (p.wasTouch) this.target = null;
     });
     this.input.keyboard?.on('keydown-ESC', () => this.togglePause());
+  }
+
+  private addObstacle(o: Rect) {
+    const r = { x: o.x, y: HUD_H + o.y, w: o.w, h: o.h };
+    // ponytail: o móvel sai do formato (comprido = balcão, senão mesa); cenários novos trazem os seus móveis
+    const key = o.w / o.h >= 1.8 ? 'cozinha-balcao' : 'cozinha-mesa';
+    this.add.rectangle(r.x + 8, r.y + 10, r.w, r.h, 0x000000, 0.25).setOrigin(0).setDepth(3); // sombra
+    if (this.textures.exists(key)) coverImage(this, key, r).setDepth(3);
+    else this.add.rectangle(r.x, r.y, r.w, r.h, 0xb07a46).setOrigin(0).setDepth(3);
+    this.add.rectangle(r.x, r.y, r.w, r.h).setOrigin(0).setStrokeStyle(6, 0x3b1d0b).setDepth(3);
   }
 
   update(time: number, delta: number) {

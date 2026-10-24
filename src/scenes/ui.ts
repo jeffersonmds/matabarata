@@ -1,4 +1,6 @@
 import Phaser from 'phaser';
+import { coverCrop } from '../logic/cover';
+import type { Rect } from '../logic/geometry';
 
 export const FONT = 'system-ui, "Segoe UI", sans-serif';
 
@@ -37,4 +39,13 @@ export function button(
   const zone = scene.add.zone(x, y, w, h);
   if (onClick) zone.setInteractive({ useHandCursor: true }).on('pointerup', onClick);
   return [g, t, zone];
+}
+
+/** Imagem que preenche o retângulo sem distorcer (corta as sobras). */
+export function coverImage(scene: Phaser.Scene, key: string, r: Rect): Phaser.GameObjects.Image {
+  const src = scene.textures.get(key).getSourceImage() as { width: number; height: number };
+  const c = coverCrop(src.width, src.height, r.w, r.h);
+  const s = r.w / c.w;
+  // com crop, posição e origin continuam relativas à imagem inteira
+  return scene.add.image(r.x - c.x * s, r.y - c.y * s, key).setOrigin(0).setScale(s).setCrop(c.x, c.y, c.w, c.h);
 }

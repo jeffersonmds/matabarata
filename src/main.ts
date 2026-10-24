@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { BootScene } from './scenes/BootScene';
 import { MenuScene } from './scenes/MenuScene';
 import { ClassicScene } from './scenes/ClassicScene';
 import { MapScene } from './scenes/MapScene';
@@ -14,5 +15,5 @@ new Phaser.Game({
   backgroundColor: '#000000',
   // canvas do tamanho da janela; cada cena encaixa sua área de design com fitCamera (scenes/ui.ts)
   scale: { mode: Phaser.Scale.RESIZE, width: '100%', height: '100%' },
-  scene: [MenuScene, ClassicScene, MapScene, LevelScene, ResultScene],
+  scene: [BootScene, MenuScene, ClassicScene, MapScene, LevelScene, ResultScene],
 });
