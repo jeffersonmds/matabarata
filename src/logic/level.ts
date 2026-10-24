@@ -35,14 +35,16 @@ export function validateLevel(d: LevelData): string[] {
   if (!(d.limit > total)) errors.push('limit precisa ser maior que as baratas iniciais');
   if (!(d.breedEveryMs >= 1000)) errors.push('breedEveryMs abaixo de 1000');
   if (!(d.targetMs > 0)) errors.push('targetMs inválido');
-  for (const [kind] of counts) {
+  for (const [kind, n] of counts) {
     if (!(ROACH_KINDS as readonly string[]).includes(kind)) errors.push(`barata desconhecida: ${kind}`);
+    if (!Number.isInteger(n) || n! < 1) errors.push(`quantidade inválida de ${kind}`);
   }
   d.obstacles.forEach((o, i) => {
-    if (o.w <= 0 || o.h <= 0 || o.x < 0 || o.y < 0 || o.x + o.w > ARENA_W || o.y + o.h > ARENA_H) errors.push(`obstáculo ${i} fora da arena`);
-    // pushOutOfRect devolve o mesmo objeto quando não há sobreposição
+    // negado: NaN também cai aqui
+    if (!(o.w > 0 && o.h > 0 && o.x >= 0 && o.y >= 0 && o.x + o.w <= ARENA_W && o.y + o.h <= ARENA_H)) errors.push(`obstáculo ${i} fora da arena`);
     // o chinelo anda até 45 px por quadro (900 px/s × 50 ms): mais fino que isso ele atravessa
     if (o.w < MIN_OBSTACLE || o.h < MIN_OBSTACLE) errors.push(`obstáculo ${i} fino demais`);
+    // pushOutOfRect devolve o mesmo objeto quando não há sobreposição
     if (pushOutOfRect(START, CHINELO_RADIUS, o) !== START) errors.push(`obstáculo ${i} em cima do chinelo`);
   });
   for (const p of d.powerUps) {
