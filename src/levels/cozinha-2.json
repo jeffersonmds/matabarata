@@ -1,0 +1,10 @@
+{
+  "id": "cozinha-2",
+  "name": "Debaixo da mesa",
+  "roaches": { "comum": 8 },
+  "breedEveryMs": 6000,
+  "limit": 18,
+  "targetMs": 40000,
+  "obstacles": [{ "x": 300, "y": 450, "w": 300, "h": 200 }],
+  "powerUps": [{ "kind": "inseticida", "atMs": 12000 }]
+}

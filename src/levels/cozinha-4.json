@@ -1,0 +1,16 @@
+{
+  "id": "cozinha-4",
+  "name": "Atrás do balcão",
+  "roaches": { "comum": 8, "ligeira": 4 },
+  "breedEveryMs": 5000,
+  "limit": 22,
+  "targetMs": 55000,
+  "obstacles": [
+    { "x": 0, "y": 250, "w": 350, "h": 120 },
+    { "x": 550, "y": 600, "w": 350, "h": 120 }
+  ],
+  "powerUps": [
+    { "kind": "chinelada", "atMs": 10000 },
+    { "kind": "inseticida", "atMs": 30000 }
+  ]
+}

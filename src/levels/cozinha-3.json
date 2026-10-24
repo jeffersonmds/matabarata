@@ -1,0 +1,13 @@
+{
+  "id": "cozinha-3",
+  "name": "Chegou a ligeirinha",
+  "roaches": { "comum": 6, "ligeira": 3 },
+  "breedEveryMs": 5500,
+  "limit": 20,
+  "targetMs": 45000,
+  "obstacles": [
+    { "x": 80, "y": 300, "w": 220, "h": 160 },
+    { "x": 600, "y": 700, "w": 220, "h": 160 }
+  ],
+  "powerUps": [{ "kind": "inseticida", "atMs": 15000 }]
+}

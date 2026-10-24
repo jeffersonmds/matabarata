@@ -1,0 +1,10 @@
+{
+  "id": "cozinha-1",
+  "name": "Primeira visita",
+  "roaches": { "comum": 5 },
+  "breedEveryMs": 7000,
+  "limit": 15,
+  "targetMs": 30000,
+  "obstacles": [],
+  "powerUps": []
+}

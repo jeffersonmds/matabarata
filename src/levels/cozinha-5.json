@@ -1,0 +1,18 @@
+{
+  "id": "cozinha-5",
+  "name": "Festa na pia",
+  "roaches": { "comum": 10, "ligeira": 6 },
+  "breedEveryMs": 4500,
+  "limit": 26,
+  "targetMs": 70000,
+  "obstacles": [
+    { "x": 350, "y": 350, "w": 200, "h": 200 },
+    { "x": 0, "y": 800, "w": 250, "h": 140 },
+    { "x": 650, "y": 800, "w": 250, "h": 140 }
+  ],
+  "powerUps": [
+    { "kind": "isca", "atMs": 12000 },
+    { "kind": "chinelada", "atMs": 30000 },
+    { "kind": "inseticida", "atMs": 45000 }
+  ]
+}
