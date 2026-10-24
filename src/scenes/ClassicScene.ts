@@ -5,6 +5,7 @@ import { loadSave, writeSave } from '../save';
 import { play, KILL_BEEP, GAME_OVER } from '../audio/beeper';
 import { CrtPipeline } from './crt';
 import { INTRO_ART, RULES, type ArtColor } from './classicArt';
+import { fitCamera } from './ui';
 
 // Uma célula do console em px: 80×25 células = canvas de 960×600.
 const CW = 12;
@@ -42,6 +43,7 @@ export class ClassicScene extends Phaser.Scene {
       this.renderer.pipelines.addPostPipeline('crt', CrtPipeline);
       this.cameras.main.setPostPipeline('crt');
     }
+    fitCamera(this, 960, 600);
     this.layer = this.add.container();
     this.spacing = this.measureSpacing();
     this.best = loadSave().classicBest;
@@ -179,7 +181,7 @@ export class ClassicScene extends Phaser.Scene {
 
   /** Escreve na posição de console (coluna/linha 1-based), como o gotoxy + printf do original. */
   private put(col: number, row: number, text: string, color: ArtColor): Phaser.GameObjects.Text {
-    const t = this.add.text((col - 1) * CW, (row - 1) * CH, text, { fontFamily: FONT, fontSize: '20px', color: COLOR[color] });
+    const t = this.add.text((col - 1) * CW, (row - 1) * CH, text, { fontFamily: FONT, fontSize: '20px', color: COLOR[color], resolution: 2 });
     t.setLetterSpacing(this.spacing);
     t.setShadow(0, 0, COLOR[color], 8, false, true);
     this.layer.add(t);
