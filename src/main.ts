@@ -1,5 +1,8 @@
 import Phaser from 'phaser';
 import { MenuScene } from './scenes/MenuScene';
+import { unlockAudio } from './audio/beeper';
+
+for (const ev of ['pointerdown', 'keydown'] as const) addEventListener(ev, unlockAudio);
 
 new Phaser.Game({
   type: Phaser.AUTO,
