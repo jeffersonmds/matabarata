@@ -46,7 +46,8 @@ export class ClassicScene extends Phaser.Scene {
     this.spacing = this.measureSpacing();
     this.best = loadSave().classicBest;
 
-    this.input.keyboard?.on('keydown', (e: KeyboardEvent) => this.onKey(e.key));
+    // sem repetição: segurar S pra descer e morrer na borda pularia a tela de fim
+    this.input.keyboard?.on('keydown', (e: KeyboardEvent) => !e.repeat && this.onKey(e.key));
     this.input.on('pointerdown', (p: Phaser.Input.Pointer) => (this.swipeFrom = { x: p.x, y: p.y }));
     this.input.on('pointermove', (p: Phaser.Input.Pointer) => this.onSwipe(p));
     this.input.on('pointerup', () => (this.swipeFrom = null));
@@ -124,8 +125,12 @@ export class ClassicScene extends Phaser.Scene {
     }
     if (record) this.put(33, 17, 'NOVO RECORDE!', 'white');
     this.put(27, 20, 'Voltar ao menu? (S/N)', 'white');
-    this.button(30, 22, '[ S ]', () => this.showIntro());
-    this.button(40, 22, '[ N ]', () => this.scene.start('menu'));
+    // botões só depois de 300 ms: o deslize que matou o jogador pode terminar em cima deles
+    this.time.delayedCall(300, () => {
+      if (this.phase !== 'end') return;
+      this.button(30, 22, '[ S ]', () => this.showIntro());
+      this.button(40, 22, '[ N ]', () => this.scene.start('menu'));
+    });
   }
 
   private onKey(key: string) {
