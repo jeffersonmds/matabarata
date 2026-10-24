@@ -16,7 +16,7 @@ const WALL_RIGHT = 79;
 const WALL_TOP = 1;
 const WALL_BOTTOM = 23;
 
-export const CURSOR_FRAMES = ['|', '/', '-', '\'];
+export const CURSOR_FRAMES = ['|', '/', '-', '\\'];
 
 export type Dir = 'up' | 'down' | 'left' | 'right';
 export type Status = 'waiting' | 'playing' | 'lost' | 'won';

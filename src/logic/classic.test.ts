@@ -98,7 +98,7 @@ describe('step', () => {
     expect([g.stepMs, g.score, g.status]).toEqual([10, 30000, 'won']);
   });
 
-  it('o cursor gira | / - \ a cada passo', () => {
+  it('o cursor gira | / - \\ a cada passo', () => {
     const g = game([[10, 10]]);
     turn(g, 'right');
     const frames = [0, 1, 2, 3, 4].map(() => {
