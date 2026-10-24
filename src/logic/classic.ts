@@ -1,8 +1,6 @@
 // Regras do MataBarata original (SENAI, 2013), em coordenadas de console 1-based (gotoxy do conio).
 // Fiel ao .cpp de propósito: não "conserte" as regras.
 
-export const COLS = 80;
-export const ROWS = 25;
 export const START_X = 40;
 export const START_Y = 13;
 export const ROACH_COUNT = 30;

@@ -10,6 +10,7 @@ Código, comentários e commits em **português**.
     npm run dev       # servidor local
     npm test          # Vitest (src/**/*.test.ts)
     npm run build     # tsc + vite build → dist/ (com service worker)
+Push em `master` publica no GitHub Pages (`.github/workflows/deploy.yml`: testes + build + deploy; o Pages do repo usa `build_type=workflow`). Site: https://jeffersonmds.github.io/matabarata/
 
 ## Arquitetura
 
