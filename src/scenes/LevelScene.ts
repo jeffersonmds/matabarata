@@ -69,9 +69,9 @@ export class LevelScene extends Phaser.Scene {
     this.sync(time);
   }
 
-  /** Mouse: segue sempre. Toque: só com o dedo na tela. */
+  /** Mouse: segue sempre. Toque: só com o dedo na tela. Em cima do HUD não mira (ir até o botão II não arrasta o chinelo). */
   private aim(p: Phaser.Input.Pointer) {
-    if (this.pauseLayer || (p.wasTouch && !p.isDown)) return;
+    if (this.pauseLayer || (p.wasTouch && !p.isDown) || p.worldY < HUD_H) return;
     this.target = { x: p.worldX, y: p.worldY - HUD_H };
   }
 

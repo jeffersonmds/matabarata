@@ -32,6 +32,10 @@ describe('save', () => {
     expect(parseSave(raw)).toEqual({ classicBest: 10, levels: { c: { stars: 3, best: 50 } } });
   });
 
+  it('save da etapa 1 (só o recorde do Clássico) continua valendo', () => {
+    expect(parseSave('{"classicBest":5000}')).toEqual({ classicBest: 5000, levels: {} });
+  });
+
   it('storage quebrado não lança', () => {
     expect(loadSave(broken)).toEqual(EMPTY);
     expect(() => writeSave(EMPTY, broken)).not.toThrow();
