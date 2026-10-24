@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { loadSave } from '../save';
-import { fitCamera, text, button, coverImage } from './ui';
+import { isMuted } from '../audio/beeper';
+import { fitCamera, text, button, coverImage, toggleMute } from './ui';
 
 export class MenuScene extends Phaser.Scene {
   constructor() {
@@ -20,6 +21,9 @@ export class MenuScene extends Phaser.Scene {
 
     const best = loadSave().classicBest;
     if (best > 0) text(this, 480, 520, `Recorde do Clássico: ${best}`, 24, '#5a3300', '700').setStroke('#ffffff', 6);
+
+    const sound = text(this, 910, 50, isMuted() ? '🔇' : '🔊', 40);
+    sound.setInteractive({ useHandCursor: true }).on('pointerup', () => sound.setText(toggleMute() ? '🔇' : '🔊'));
 
     this.input.keyboard?.once('keydown-ONE', () => this.scene.start('classic'));
     this.input.keyboard?.once('keydown-TWO', () => this.scene.start('map'));

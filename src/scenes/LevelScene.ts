@@ -8,7 +8,10 @@ import type { Roach } from '../logic/roach';
 import type { Rect, Vec } from '../logic/geometry';
 import { loadSave, writeSave } from '../save';
 import { ensureTextures } from '../art/textures';
-import { fitCamera, button, text, coverImage } from './ui';
+import { sfx } from '../audio/sfx';
+import { startMusic, stopMusic } from '../audio/music';
+import { isMuted } from '../audio/beeper';
+import { fitCamera, button, text, coverImage, toggleMute } from './ui';
 
 // Área de design: faixa do HUD em cima + arena (coordenadas da arena + HUD_H no eixo y).
 export const HUD_H = 120;
@@ -59,6 +62,8 @@ export class LevelScene extends Phaser.Scene {
       if (p.wasTouch) this.target = null;
     });
     this.input.keyboard?.on('keydown-ESC', () => this.togglePause());
+    startMusic();
+    this.events.once('shutdown', stopMusic);
   }
 
   private addObstacle(o: Rect) {
@@ -87,9 +92,12 @@ export class LevelScene extends Phaser.Scene {
   private onEvent(e: WorldEvent) {
     switch (e.type) {
       case 'kill':
+        sfx.paf();
+        if (e.streak > 1) sfx.combo(e.streak);
         this.splat(e.roach, e.streak);
         break;
       case 'spawn':
+        sfx.spawn();
         this.addRoach(e.roach, true);
         break;
       case 'power-spawn': {
@@ -99,6 +107,7 @@ export class LevelScene extends Phaser.Scene {
         break;
       }
       case 'power-pick':
+        sfx.power();
         this.popText(e.power.x, e.power.y, POWER_LABEL[e.power.kind], '#3fbf6a');
         this.removePower(e.power.id);
         break;
@@ -192,9 +201,11 @@ export class LevelScene extends Phaser.Scene {
       this.pauseLayer.destroy();
       this.pauseLayer = null;
       this.tweens.resumeAll();
+      startMusic();
       return;
     }
     this.tweens.pauseAll();
+    stopMusic();
     this.target = null;
     const cx = VIEW_W / 2;
     const cy = VIEW_H / 2;
@@ -206,11 +217,24 @@ export class LevelScene extends Phaser.Scene {
         ...button(this, cx, cy - 40, 420, 90, 'Continuar', () => this.togglePause()),
         ...button(this, cx, cy + 80, 420, 90, 'Reiniciar', () => this.scene.restart({ index: this.index }), 0xf2994a),
         ...button(this, cx, cy + 200, 420, 90, 'Mapa', () => this.scene.start('map'), 0x7a3b10),
+        ...this.soundButton(cx, cy + 320),
       ])
       .setDepth(20);
   }
 
+  private soundButton(x: number, y: number) {
+    const label = () => `Som: ${isMuted() ? 'desligado' : 'ligado'}`;
+    const parts = button(this, x, y, 420, 90, label(), () => {
+      toggleMute();
+      parts[1].setText(label());
+    }, 0x3fbf6a);
+    return parts;
+  }
+
   private finish(won: boolean) {
+    stopMusic();
+    if (won) sfx.win();
+    else sfx.lose();
     const level = LEVELS[this.index];
     const score = this.w.score.score;
     const stars = starsFor(won, this.w.elapsedMs, this.w.maxInfestation, level.targetMs);

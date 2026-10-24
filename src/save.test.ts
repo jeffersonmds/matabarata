@@ -18,7 +18,7 @@ const broken = {
 describe('save', () => {
   it('lê o que gravou', () => {
     const s = memory();
-    const data = { classicBest: 5000, levels: { 'cozinha-1': { stars: 2, best: 900 } } };
+    const data = { classicBest: 5000, levels: { 'cozinha-1': { stars: 2, best: 900 } }, muted: true };
     writeSave(data, s);
     expect(loadSave(s)).toEqual(data);
   });
@@ -29,11 +29,16 @@ describe('save', () => {
 
   it('fase com registro inválido é descartada, o resto fica', () => {
     const raw = '{"classicBest":10,"levels":{"a":{"stars":4,"best":1},"b":{"stars":1,"best":-1},"c":{"stars":3,"best":50}}}';
-    expect(parseSave(raw)).toEqual({ classicBest: 10, levels: { c: { stars: 3, best: 50 } } });
+    expect(parseSave(raw)).toEqual({ classicBest: 10, levels: { c: { stars: 3, best: 50 } }, muted: false });
   });
 
   it('save da etapa 1 (só o recorde do Clássico) continua valendo', () => {
-    expect(parseSave('{"classicBest":5000}')).toEqual({ classicBest: 5000, levels: {} });
+    expect(parseSave('{"classicBest":5000}')).toEqual({ classicBest: 5000, levels: {}, muted: false });
+  });
+
+  it('mudo só liga com true de verdade', () => {
+    expect(parseSave('{"muted":true}').muted).toBe(true);
+    expect(parseSave('{"muted":"sim"}').muted).toBe(false);
   });
 
   it('storage quebrado não lança', () => {

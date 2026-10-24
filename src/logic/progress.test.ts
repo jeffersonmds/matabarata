@@ -3,7 +3,7 @@ import { isUnlocked, recordResult, totalStars } from './progress';
 import type { SaveData } from '../save';
 
 const ids = ['a', 'b', 'c'];
-const save = (levels: SaveData['levels'] = {}): SaveData => ({ classicBest: 0, levels });
+const save = (levels: SaveData['levels'] = {}): SaveData => ({ classicBest: 0, levels, muted: false });
 
 describe('progress', () => {
   it('a 1ª fase está sempre aberta; as outras abrem quando a anterior tem estrela', () => {

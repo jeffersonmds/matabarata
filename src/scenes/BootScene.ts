@@ -1,4 +1,6 @@
 import Phaser from 'phaser';
+import { setMuted } from '../audio/beeper';
+import { loadSave } from '../save';
 import { fitCamera } from './ui';
 
 export const BACKGROUNDS = ['titulo', 'cozinha-piso', 'cozinha-mesa', 'cozinha-balcao', 'cozinha-concluida'] as const;
@@ -18,6 +20,7 @@ export class BootScene extends Phaser.Scene {
   }
 
   create() {
+    setMuted(loadSave().muted);
     this.scene.start('menu');
   }
 }

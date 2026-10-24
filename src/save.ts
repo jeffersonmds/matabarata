@@ -9,9 +9,10 @@ export interface LevelRecord {
 export interface SaveData {
   classicBest: number;
   levels: Record<string, LevelRecord>;
+  muted: boolean;
 }
 
-export const EMPTY: SaveData = { classicBest: 0, levels: {} };
+export const EMPTY: SaveData = { classicBest: 0, levels: {}, muted: false };
 
 type Store = Pick<Storage, 'getItem' | 'setItem'>;
 
@@ -25,9 +26,9 @@ export function parseSave(raw: string | null): SaveData {
       const rec = r as Partial<LevelRecord> | null;
       if (isCount(rec?.stars, 3) && isCount(rec?.best)) levels[id] = { stars: rec.stars, best: rec.best };
     }
-    return { classicBest: isCount(d?.classicBest) ? d.classicBest : 0, levels };
+    return { classicBest: isCount(d?.classicBest) ? d.classicBest : 0, levels, muted: d?.muted === true };
   } catch {
-    return { classicBest: 0, levels: {} };
+    return { classicBest: 0, levels: {}, muted: false };
   }
 }
 
@@ -36,7 +37,7 @@ export function loadSave(store?: Store): SaveData {
   try {
     return parseSave((store ?? localStorage).getItem(KEY));
   } catch {
-    return { classicBest: 0, levels: {} };
+    return { classicBest: 0, levels: {}, muted: false };
   }
 }
 

@@ -1,6 +1,9 @@
 import Phaser from 'phaser';
 import { coverCrop } from '../logic/cover';
 import type { Rect } from '../logic/geometry';
+import { sfx } from '../audio/sfx';
+import { isMuted, setMuted } from '../audio/beeper';
+import { loadSave, writeSave } from '../save';
 
 export const FONT = 'system-ui, "Segoe UI", sans-serif';
 
@@ -37,7 +40,12 @@ export function button(
   g.lineStyle(5, 0xffffff).strokeRoundedRect(x - w / 2, y - h / 2, w, h, h / 2);
   const t = text(scene, x, y, label, Math.round(h * 0.42), '#ffffff');
   const zone = scene.add.zone(x, y, w, h);
-  if (onClick) zone.setInteractive({ useHandCursor: true }).on('pointerup', onClick);
+  if (onClick) {
+    zone.setInteractive({ useHandCursor: true }).on('pointerup', () => {
+      sfx.click();
+      onClick();
+    });
+  }
   return [g, t, zone];
 }
 
@@ -48,4 +56,12 @@ export function coverImage(scene: Phaser.Scene, key: string, r: Rect): Phaser.Ga
   const s = r.w / c.w;
   // com crop, posição e origin continuam relativas à imagem inteira
   return scene.add.image(r.x - c.x * s, r.y - c.y * s, key).setOrigin(0).setScale(s).setCrop(c.x, c.y, c.w, c.h);
+}
+
+/** Liga/desliga o som e guarda a escolha. Devolve o novo estado (true = mudo). */
+export function toggleMute(): boolean {
+  const muted = !isMuted();
+  setMuted(muted);
+  writeSave({ ...loadSave(), muted });
+  return muted;
 }
