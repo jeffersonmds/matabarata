@@ -87,6 +87,20 @@ describe('infestação e fim', () => {
     expect(Math.min(...w.roaches.slice(0, 2).map((r) => dist(r, child)))).toBeLessThanOrEqual(31);
   });
 
+  it('chegar exatamente no limite ainda não perde', () => {
+    const w = world([[100, 100], [800, 200]], { limit: 3, breedEveryMs: 1000 });
+    stepWorld(w, 1000, null, half);
+    expect([aliveRoaches(w).length, w.status]).toEqual([3, 'playing']);
+  });
+
+  it('power-up não nasce em cima do chinelo', () => {
+    const w = world([[100, 100]], { powerUps: [{ kind: 'isca', atMs: 1 }] });
+    w.chinelo = { x: 450, y: 600 }; // onde o ponto livre cairia com rand = 0,5
+    const ev = stepWorld(w, 1, null, lcg());
+    expect(ev.some((e) => e.type === 'power-pick')).toBe(false);
+    expect(dist(w.powerUps[0], w.chinelo)).toBeGreaterThanOrEqual(SPAWN_SAFE_DIST);
+  });
+
   it('passar do limite perde e o mundo para', () => {
     const w = world([[100, 100], [800, 200], [100, 500]], { limit: 3, breedEveryMs: 1000 });
     const ev = stepWorld(w, 1000, null, half);

@@ -3,7 +3,7 @@
   "name": "Atrás do balcão",
   "roaches": { "comum": 8, "ligeira": 4 },
   "breedEveryMs": 5000,
-  "limit": 22,
+  "limit": 26,
   "targetMs": 55000,
   "obstacles": [
     { "x": 0, "y": 250, "w": 350, "h": 120 },

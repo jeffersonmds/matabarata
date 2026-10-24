@@ -21,6 +21,7 @@ describe('validateLevel', () => {
   it.each<[string, Partial<LevelData>]>([
     ['sem baratas', { roaches: {} }],
     ['limite <= baratas iniciais', { limit: 3 }],
+    ['limite abaixo do dobro das iniciais (3ª estrela impossível)', { limit: 5 }],
     ['multiplicação rápida demais', { breedEveryMs: 500 }],
     ['tempo-alvo inválido', { targetMs: 0 }],
     ['barata desconhecida', { roaches: { comum: 2, gigante: 1 } as LevelData['roaches'] }],

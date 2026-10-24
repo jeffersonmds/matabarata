@@ -32,7 +32,8 @@ export function validateLevel(d: LevelData): string[] {
   const counts = Object.entries(d.roaches);
   const total = counts.reduce((sum, [, n]) => sum + (n ?? 0), 0);
   if (total < 1) errors.push('sem baratas');
-  if (!(d.limit > total)) errors.push('limit precisa ser maior que as baratas iniciais');
+  // a 3ª estrela pede infestação ≤ 50%: a fase não pode já começar acima disso
+  if (!(d.limit >= 2 * total)) errors.push('limit precisa ser pelo menos o dobro das baratas iniciais');
   if (!(d.breedEveryMs >= 1000)) errors.push('breedEveryMs abaixo de 1000');
   if (!(d.targetMs > 0)) errors.push('targetMs inválido');
   for (const [kind, n] of counts) {

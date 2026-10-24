@@ -51,12 +51,12 @@ export const aliveRoaches = (w: World) => w.roaches.filter((r) => !r.dead);
 export const infestation = (w: World) => aliveRoaches(w).length / w.level.limit;
 const hidden = (w: World, p: Vec) => w.level.obstacles.some((o) => inRect(p, o));
 
-/** Ponto livre: fora dos móveis e longe do início do chinelo (50 tentativas; ponytail: depois disso aceita o último). */
-function freePoint(level: LevelData, rand: () => number): Vec {
+/** Ponto livre: fora dos móveis e longe de `avoid` (o chinelo) — 50 tentativas; ponytail: depois disso aceita o último. */
+function freePoint(level: LevelData, rand: () => number, avoid: Vec): Vec {
   let p: Vec = { x: ARENA_W / 2, y: ARENA_H / 4 };
   for (let i = 0; i < 50; i++) {
     p = { x: 40 + rand() * (ARENA_W - 80), y: 40 + rand() * (ARENA_H - 80) };
-    if (dist(p, START) >= SPAWN_SAFE_DIST && !level.obstacles.some((o) => inRect(p, o))) break;
+    if (dist(p, avoid) >= SPAWN_SAFE_DIST && !level.obstacles.some((o) => inRect(p, o))) break;
   }
   return p;
 }
@@ -83,7 +83,7 @@ export function createWorld(level: LevelData, rand: () => number): World {
     nextId: 1,
   };
   for (const [kind, n] of Object.entries(level.roaches) as [RoachKind, number][]) {
-    for (let i = 0; i < n; i++) w.roaches.push(newRoach(w, kind, freePoint(level, rand), rand));
+    for (let i = 0; i < n; i++) w.roaches.push(newRoach(w, kind, freePoint(level, rand, START), rand));
   }
   w.maxInfestation = infestation(w);
   return w;
@@ -100,7 +100,7 @@ export function stepWorld(w: World, dtMs: number, target: Vec | null, rand: () =
 
   while (w.pendingPowers.length && w.pendingPowers[0].atMs <= now) {
     const { kind } = w.pendingPowers.shift()!;
-    const p = freePoint(w.level, rand);
+    const p = freePoint(w.level, rand, w.chinelo);
     const power: PowerUp = { id: w.nextId++, kind, x: p.x, y: p.y, expiresMs: now + POWER_TTL_MS };
     w.powerUps.push(power);
     ev.push({ type: 'power-spawn', power });
