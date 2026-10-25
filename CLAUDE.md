@@ -28,7 +28,11 @@ Push em `master` publica no GitHub Pages (`.github/workflows/deploy.yml`: testes
 - Fases: `src/levels/*.json`, na ordem de `src/levels/index.ts`; todas passam por `validateLevel` nos testes
   (`limit` ≥ 2× as baratas iniciais, senão a 3ª estrela fica impossível; obstáculo ≥ 100 px, senão o chinelo atravessa).
   Obstáculos bloqueiam só o chinelo; barata com o centro dentro de um obstáculo está escondida (não leva chinelada).
-- Sprites provisórios em vetor (`art/textures.ts`); fundos virão do Google Flow (etapa 3).
+- Arte: originais do Google Flow em `art/flow/` (prompts em `docs/prompts-flow.md`); `python scripts/prep-art.py`
+  gera os `.webp` de `public/bg/` e os ícones PNG. `BootScene` carrega tudo; cena usa `coverImage` e cai no desenho
+  provisório (`art/textures.ts`) se a imagem faltar. Personagens continuam vetoriais.
 - `src/save.ts`: `localStorage` em chave versionada (`matabarata:v1`); nunca lança.
-- Áudio (`src/audio/beeper.ts`): Web Audio liberado no 1º toque/tecla (exigência do iOS); sem áudio = mudo.
+- Áudio: Web Audio liberado no 1º toque/tecla (exigência do iOS); sem áudio = mudo. Tudo passa pelo ganho mestre de
+  `audio/beeper.ts` (mudo salvo em `save.muted`). Efeitos (`audio/sfx.ts`) e música (`audio/music.ts`) são
+  sintetizados — sem arquivos de terceiros.
 - `// ponytail:` marca simplificação deliberada com teto conhecido — respeite.
