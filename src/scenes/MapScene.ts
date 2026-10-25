@@ -3,7 +3,7 @@ import { LEVELS } from '../levels';
 import { isUnlocked, totalStars } from '../logic/progress';
 import type { Vec } from '../logic/geometry';
 import { loadSave } from '../save';
-import { fitCamera, button, text } from './ui';
+import { fitCamera, button, text, coverImage } from './ui';
 import { VIEW_W, VIEW_H } from './LevelScene';
 
 // ponytail: trilha fixa das 5 fases da Cozinha; Banheiro e Quintal (etapa 4) ganham suas trilhas
@@ -23,12 +23,16 @@ export class MapScene extends Phaser.Scene {
   create() {
     fitCamera(this, VIEW_W, VIEW_H);
     this.cameras.main.setBackgroundColor('#ffd27a');
+    if (this.textures.exists('cozinha-mapa')) {
+      coverImage(this, 'cozinha-mapa', { x: 0, y: 0, w: VIEW_W, h: VIEW_H });
+      this.add.rectangle(0, 0, VIEW_W, VIEW_H, 0xffffff, 0.25).setOrigin(0); // clareia pra trilha e as fases se destacarem
+    }
     const save = loadSave();
     const ids = LEVELS.map((l) => l.id);
 
     button(this, 110, 70, 180, 70, '← Menu', () => this.scene.start('menu'), 0x7a3b10);
-    text(this, VIEW_W - 140, 70, `★ ${totalStars(save)}/${LEVELS.length * 3}`, 34, '#7a3b10', '900');
-    text(this, VIEW_W / 2, 200, 'Cozinha', 72, '#7a3b10', '900');
+    text(this, VIEW_W - 140, 70, `★ ${totalStars(save)}/${LEVELS.length * 3}`, 34, '#7a3b10', '900').setStroke('#ffffff', 8);
+    text(this, VIEW_W / 2, 200, 'Cozinha', 72, '#7a3b10', '900').setStroke('#ffffff', 10);
 
     const path = this.add.graphics().fillStyle(0xc98a3c);
     for (let i = 1; i < NODES.length; i++) {
@@ -46,7 +50,7 @@ export class MapScene extends Phaser.Scene {
       text(this, x, y, open ? String(i + 1) : '🔒', 48, '#ffffff', '900');
       if (!open) return;
       const stars = rec?.stars ?? 0;
-      text(this, x, y + 90, '★'.repeat(stars) + '☆'.repeat(3 - stars), 34, '#e0a100', '900');
+      text(this, x, y + 90, '★'.repeat(stars) + '☆'.repeat(3 - stars), 34, '#e0a100', '900').setStroke('#ffffff', 6);
       node.setInteractive({ useHandCursor: true }).on('pointerup', () => this.scene.start('level', { index: i }));
       if (!rec) this.tweens.add({ targets: node, scale: 1.1, yoyo: true, repeat: -1, duration: 600, ease: 'Sine.inOut' });
     });

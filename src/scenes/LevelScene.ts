@@ -103,7 +103,9 @@ export class LevelScene extends Phaser.Scene {
         this.addRoach(e.roach, true);
         break;
       case 'power-spawn': {
-        const img = this.add.image(e.power.x, HUD_H + e.power.y, `power-${e.power.kind}`).setDepth(2.5);
+        const flow = `sprite-power-${e.power.kind}`;
+        const img = this.add.image(e.power.x, HUD_H + e.power.y, this.textures.exists(flow) ? flow : `power-${e.power.kind}`).setDepth(2.5);
+        img.setScale(84 / Math.max(img.width, img.height)); // ~ o diâmetro do raio de coleta
         this.tweens.add({ targets: img, y: img.y - 10, yoyo: true, repeat: -1, duration: 500, ease: 'Sine.inOut' });
         this.powerImgs.set(e.power.id, img);
         break;
@@ -160,6 +162,10 @@ export class LevelScene extends Phaser.Scene {
       img.setTint(0x3b1d0b);
       this.tweens.add({ targets: img, scaleY: 0.2, alpha: 0, duration: 450, onComplete: () => img.destroy() });
     }
+    if (this.textures.exists('sprite-paf')) {
+      const burst = this.add.image(r.x, HUD_H + r.y, 'sprite-paf').setDepth(5).setScale(0.15).setAngle(Math.random() * 360);
+      this.tweens.add({ targets: burst, scale: 0.55, alpha: 0, duration: 380, ease: 'Cubic.out', onComplete: () => burst.destroy() });
+    }
     this.popText(r.x, r.y, 'PAF!', '#e8513a');
     if (streak > 1) this.popText(r.x, r.y + 40, `COMBO x${streak}`, '#2a9df4', 28);
     this.cameras.main.shake(60, 0.004);
@@ -170,7 +176,7 @@ export class LevelScene extends Phaser.Scene {
     this.powerImgs.delete(id);
     if (!img) return;
     this.tweens.killTweensOf(img);
-    this.tweens.add({ targets: img, scale: 1.5, alpha: 0, duration: 250, onComplete: () => img.destroy() });
+    this.tweens.add({ targets: img, scale: img.scale * 1.5, alpha: 0, duration: 250, onComplete: () => img.destroy() });
   }
 
   private popText(x: number, y: number, s: string, color: string, size = 40) {

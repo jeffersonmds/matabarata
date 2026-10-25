@@ -3,9 +3,11 @@ import { setMuted } from '../audio/beeper';
 import { loadSave } from '../save';
 import { fitCamera } from './ui';
 
-export const BACKGROUNDS = ['titulo', 'cozinha-piso', 'cozinha-mesa', 'cozinha-balcao', 'cozinha-concluida'] as const;
+export const BACKGROUNDS = ['titulo', 'cozinha-piso', 'cozinha-mesa', 'cozinha-balcao', 'cozinha-concluida', 'cozinha-mapa'] as const;
 /** Personagens do Flow (PNG transparente); carregam como `sprite-<nome>`. */
-export const SPRITES = ['chinelo', 'barata-comum', 'barata-ligeira'] as const;
+export const SPRITES = [
+  'chinelo', 'barata-comum', 'barata-ligeira', 'power-inseticida', 'power-chinelada', 'power-isca', 'paf',
+] as const;
 
 /** Carrega a arte com barra de progresso. Imagem que falhar não trava: as cenas usam o desenho provisório. */
 export class BootScene extends Phaser.Scene {

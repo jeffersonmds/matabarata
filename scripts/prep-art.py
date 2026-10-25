@@ -16,6 +16,7 @@ SIZES = {
     'cozinha-mesa': 600,
     'cozinha-balcao': 1000,
     'cozinha-concluida': 896,
+    'cozinha-mapa': 896,
 }
 
 for name, width in SIZES.items():

@@ -10,7 +10,10 @@ OUT = ROOT / 'public' / 'sprites'
 OUT.mkdir(parents=True, exist_ok=True)
 
 # nome: largura final em px (o jogo desenha menor; a folga é pro zoom da câmera)
-SPRITES = {'chinelo': 240, 'barata-comum': 180, 'barata-ligeira': 180}
+SPRITES = {
+    'chinelo': 240, 'barata-comum': 180, 'barata-ligeira': 180,
+    'power-inseticida': 150, 'power-chinelada': 150, 'power-isca': 150, 'paf': 240,
+}
 
 
 def key_magenta(img: Image.Image) -> Image.Image:

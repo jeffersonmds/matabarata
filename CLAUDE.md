@@ -31,7 +31,7 @@ Push em `master` publica no GitHub Pages (`.github/workflows/deploy.yml`: testes
 - Arte: originais do Google Flow em `art/flow/` (prompts em `docs/prompts-flow.md`); `python scripts/prep-art.py`
   gera os `.webp` de `public/bg/` e os ícones PNG. `BootScene` carrega tudo; cena usa `coverImage` e cai no desenho
   provisório (`art/textures.ts`) se a imagem faltar. Chinelo e baratas também vêm do Flow (fundo magenta recortado
-  por `python scripts/prep-sprites.py` → `public/sprites/*.png`); power-ups e efeitos seguem vetoriais.
+  por `python scripts/prep-sprites.py` → `public/sprites/*.png`); power-ups e a explosão do "PAF!" também; o desenho vetorial fica como reserva.
 - `src/save.ts`: `localStorage` em chave versionada (`matabarata:v1`); nunca lança.
 - Áudio: Web Audio liberado no 1º toque/tecla (exigência do iOS); sem áudio = mudo. Tudo passa pelo ganho mestre de
   `audio/beeper.ts` (mudo salvo em `save.muted`). Efeitos (`audio/sfx.ts`) e música (`audio/music.ts`) são
