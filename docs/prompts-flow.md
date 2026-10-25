@@ -65,3 +65,16 @@ sunbeams, joyful atmosphere, empty space at the top for text.
 
 Gere 2–4 variações por prompt e escolha a que mais combina com as outras (mesmo traço, mesma paleta). Se uma sair
 com texto ou inseto, gere de novo.
+
+## Sprites (chinelo e baratas)
+
+Gerados em 1:1 com fundo magenta puro, que `scripts/prep-sprites.py` transforma em transparência. Vista de cima,
+virados pra direita (rumo 0 no jogo). Originais em `art/flow/sprite-*.jpg`.
+
+> Game sprite: a single blue rubber flip-flop (Brazilian havaianas style chinelo) seen exactly from above, top-down
+> orthographic view, toe pointing to the right, white Y-shaped strap, centered with wide margin, isolated on a
+> perfectly flat solid pure magenta background (#FF00FF), no shadow, no gradient, no floor. + estilo (sem "no insects")
+
+As baratas usam o mesmo molde: "a single cute cartoon brown cockroach … head and antennae pointing to the right, six
+legs spread, glossy brown wings" e, pra Ligeira, "a single slim fast cartoon cockroach in reddish orange color with
+speed stripes on its back".

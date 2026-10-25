@@ -53,7 +53,9 @@ export class LevelScene extends Phaser.Scene {
     else this.add.tileSprite(0, HUD_H, ARENA_W, ARENA_H, 'floor').setOrigin(0);
     for (const o of level.obstacles) this.addObstacle(o);
     for (const r of this.w.roaches) this.addRoach(r, false);
-    this.chinelo = this.add.image(this.w.chinelo.x, HUD_H + this.w.chinelo.y, 'chinelo').setDepth(4);
+    const chineloKey = this.textures.exists('sprite-chinelo') ? 'sprite-chinelo' : 'chinelo';
+    this.chinelo = this.add.image(this.w.chinelo.x, HUD_H + this.w.chinelo.y, chineloKey).setDepth(4);
+    this.chinelo.setScale(112 / this.chinelo.width);
     this.drawHud(level.name);
 
     this.input.on('pointermove', (p: Phaser.Input.Pointer) => this.aim(p));
@@ -139,8 +141,12 @@ export class LevelScene extends Phaser.Scene {
   }
 
   private addRoach(r: Roach, animate: boolean) {
-    const img = this.add.image(r.x, HUD_H + r.y, `roach-${r.kind}`).setOrigin(0.42, 0.5).setDepth(2);
-    const size = r.kind === 'ligeira' ? 0.85 : 1;
+    // sprite do Flow se carregou, senão o vetor provisório; a largura na tela casa com o raio de acerto
+    const flow = `sprite-barata-${r.kind}`;
+    const key = this.textures.exists(flow) ? flow : `roach-${r.kind}`;
+    const img = this.add.image(r.x, HUD_H + r.y, key).setOrigin(0.42, 0.5).setDepth(2);
+    const width = key === flow ? (r.kind === 'ligeira' ? 74 : 84) : r.kind === 'ligeira' ? 65 : 76;
+    const size = width / img.width;
     img.setScale(animate ? 0 : size);
     if (animate) this.tweens.add({ targets: img, scale: size, duration: 300, ease: 'Back.out' });
     this.roachImgs.set(r.id, img);
